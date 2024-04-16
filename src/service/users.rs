@@ -461,12 +461,29 @@ pub async fn get_user_by_token(org_id: &str, token: &str) -> Option<User> {
     }
 }
 
+fn mask_email(email: &str) -> String {
+    let parts: Vec<&str> = email.split('@').collect();
+    let masked_username = parts[0]
+        .chars()
+        .enumerate()
+        .map(|(i, c)| if i == 0 { c } else { '*' })
+        .collect::<String>();
+    let domain: Vec<&str> = parts[1].split('.').collect();
+    let masked_domain = domain[0]
+        .chars()
+        .enumerate()
+        .map(|(i, c)| if i == domain[0].len() - 1 { c } else { '*' })
+        .collect::<String>();
+
+    format!("{}@{}.{}", masked_username, masked_domain, domain[1])
+}
+
 pub async fn list_users(org_id: &str) -> Result<HttpResponse, Error> {
     let mut user_list: Vec<UserResponse> = vec![];
     for user in USERS.iter() {
         if user.key().starts_with(&format!("{org_id}/")) {
             user_list.push(UserResponse {
-                email: user.value().email.clone(),
+                email: mask_email(&user.value().email),
                 role: user.value().role.clone(),
                 first_name: user.value().first_name.clone(),
                 last_name: user.value().last_name.clone(),
