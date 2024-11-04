@@ -23,6 +23,8 @@ use crate::db::{connect_to_orm, sqlite::CLIENT_RW, ORM_CLIENT, SQLITE_STORE};
 mod entity;
 pub mod folders;
 mod migration;
+pub mod org_invites;
+pub mod organizations;
 pub mod short_urls;
 
 pub async fn init() -> Result<(), anyhow::Error> {
