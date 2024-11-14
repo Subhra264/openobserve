@@ -22,7 +22,10 @@ use regex::Regex;
 use crate::{
     common::{
         infra::config::SYSLOG_ENABLED,
-        meta::{organization::DEFAULT_ORG, user::UserRequest},
+        meta::{
+            organization::DEFAULT_ORG,
+            user::{UserOrgRole, UserRequest},
+        },
     },
     service::{db, self_reporting, users},
 };
@@ -62,7 +65,10 @@ pub async fn init() -> Result<(), anyhow::Error> {
             UserRequest {
                 email: cfg.auth.root_user_email.clone(),
                 password: cfg.auth.root_user_password.clone(),
-                role: crate::common::meta::user::UserRole::Root,
+                role: UserOrgRole {
+                    base_role: crate::common::meta::user::UserRole::Root,
+                    custom_role: None,
+                },
                 first_name: "root".to_owned(),
                 last_name: "".to_owned(),
                 is_external: false,
@@ -78,6 +84,7 @@ pub async fn init() -> Result<(), anyhow::Error> {
     // cache users
     tokio::task::spawn(async move { db::user::watch().await });
     db::user::cache().await.expect("user cache failed");
+    db::org_users::cache().await.expect("org user cache failed");
 
     db::organization::org_settings_cache()
         .await
