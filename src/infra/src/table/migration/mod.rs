@@ -18,8 +18,11 @@ pub use sea_orm_migration::prelude::*;
 mod m20241114_000001_create_folders_table;
 mod m20241115_150000_populate_folders_table;
 mod m20241116_000001_delete_metas;
-mod m20241121_000001_create_organizations_table;
-mod m20241122_000001_populate_organizations_table;
+// mod m20241121_000001_create_organizations_table;
+// mod m20241122_000001_populate_organizations_table;
+// mod m20241122_130000_create_users_table;
+// mod m20241122_150000_create_org_users_table;
+// mod m20241122_163000_populate_users_table;
 
 /// Representation of the meta table at the time this migration executes.
 pub(super) mod meta {
@@ -53,6 +56,11 @@ impl MigratorTrait for Migrator {
             Box::new(m20241114_000001_create_folders_table::Migration),
             Box::new(m20241115_150000_populate_folders_table::Migration),
             Box::new(m20241116_000001_delete_metas::Migration),
+            // Box::new(m20241121_000001_create_organizations_table::Migration),
+            // Box::new(m20241122_000001_populate_organizations_table::Migration),
+            // Box::new(m20241122_130000_create_users_table::Migration),
+            // Box::new(m20241122_150000_create_org_users_table::Migration),
+            // Box::new(m20241122_163000_populate_users_table::Migration),
         ]
     }
 }
