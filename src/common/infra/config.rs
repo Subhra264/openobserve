@@ -20,6 +20,7 @@ use config::{
         alerts::{alert::Alert, destinations::Destination, templates::Template},
         function::Transform,
         stream::StreamParams,
+        user::User,
     },
     RwAHashMap, RwHashMap,
 };
@@ -37,7 +38,6 @@ use crate::{
         organization::{Organization, OrganizationSetting},
         prom::ClusterLeader,
         syslog::SyslogRoute,
-        user::User,
     },
     service::{
         db::scheduler as db_scheduler, enrichment::StreamTable, enrichment_table::geoip::Geoip,

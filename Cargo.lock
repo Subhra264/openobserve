@@ -2514,6 +2514,7 @@ dependencies = [
  "serde_json",
  "sqlparser",
  "sqlx",
+ "strum 0.25.0",
  "svix-ksuid",
  "sysinfo",
  "tokio",
